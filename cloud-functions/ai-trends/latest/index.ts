@@ -3,10 +3,11 @@
  * Returns the latest generated report.
  */
 
+import type { CloudFunctionContext } from '@edgeone/types';
 import { jsonResponse } from '../../_http';
 import { getStore, loadLatestReport } from '../../_store';
 
-export async function onRequestGet(context: any): Promise<Response> {
+export async function onRequestGet(context: CloudFunctionContext): Promise<Response> {
   const store = getStore(context);
   if (store) {
     const report = await loadLatestReport(store);

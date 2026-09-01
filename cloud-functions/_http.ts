@@ -1,3 +1,4 @@
+import type { CloudFunctionContext } from '@edgeone/types';
 export function jsonResponse(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
     status,
@@ -5,9 +6,9 @@ export function jsonResponse(data: unknown, status = 200): Response {
   });
 }
 
-export async function readJsonBody(context: any): Promise<Record<string, any>> {
+export async function readJsonBody(context: CloudFunctionContext): Promise<Record<string, any>> {
   try {
-    const data = await context.request.json();
+    const data = await context.request!.json();
     return data && typeof data === 'object' && !Array.isArray(data)
       ? (data as Record<string, any>)
       : {};

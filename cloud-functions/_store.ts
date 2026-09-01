@@ -1,12 +1,13 @@
 /**
  * Store access layer for cloud-functions.
  *
- * In cloud-functions, the store is accessed via `context.agent.store`
+ * In cloud-functions, the store is accessed via `context.agent!.store`
  * (vs `context.store` in agents/).
  * Both point to the same underlying data.
  */
 
 // Inline minimal types (mirrors agents/ai-trends/_types.ts)
+import type { CloudFunctionContext } from '@edgeone/types';
 interface TrendReport {
   runId: string;
   status: string;
@@ -62,8 +63,8 @@ interface AgentMemoryLike {
   deleteMessage?(input: { conversationId: string; messageId: string }): Promise<void>;
 }
 
-export function getStore(context: any): AgentMemoryLike | null {
-  // cloud-functions access: context.agent.store
+export function getStore(context: CloudFunctionContext): AgentMemoryLike | null {
+  // cloud-functions access: context.agent!.store
   const store = context?.agent?.store;
   if (!store || typeof store.getMessages !== 'function') return null;
   return store;

@@ -13,9 +13,10 @@
  * The target conversation_id is passed only via request body.
  */
 
+import type { AgentContext } from '@edgeone/types';
 import { getBody, jsonResponse } from './_http.js';
 
-export async function onRequest(context: any): Promise<Response> {
+export async function onRequest(context: AgentContext): Promise<Response> {
   const body = getBody(context);
   const conversationId = body.conversationId || body.conversation_id;
 

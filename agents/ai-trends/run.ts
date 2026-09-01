@@ -1,3 +1,4 @@
+import type { AgentContext } from '@edgeone/types';
 import { randomUUID } from 'node:crypto';
 
 import { getBody, getEnv, jsonResponse } from './_http.js';
@@ -10,7 +11,7 @@ import { collectSources } from './_sources.js';
 import { loadItemLibrary, saveItemLibrary, saveReport } from './_storage.js';
 import type { TrendReport } from './_types.js';
 
-export async function onRequest(context: any): Promise<Response> {
+export async function onRequest(context: AgentContext): Promise<Response> {
   const body = getBody(context);
   const runId = context?.run_id || `run_${randomUUID().slice(0, 12)}`;
   const trigger = body._schedule ? 'schedule' : body.trigger || 'manual';
